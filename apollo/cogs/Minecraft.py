@@ -21,7 +21,7 @@ class Minecraft(commands.Cog):
         self.bot = bot
 
         self.START_ENDPOINT = f"{os.environ['PROXMOX_VM']}/status/start"
-        self.STOP_ENDPOINT = f"{os.environ['PROXMOX_VM']}/status/start"
+        self.STOP_ENDPOINT = f"{os.environ['PROXMOX_VM']}/status/stop"
 
         self.HEADERS = {"Authorization": f'PVEAPIToken={os.environ["PROXMOX_TOKEN"]}'}
 
