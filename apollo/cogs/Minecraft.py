@@ -10,7 +10,7 @@ def server_status_embed(server: str, online: bool, online_count: int | None = 0)
     embed.add_field(name="Server", value=server, inline=True)
     embed.add_field(name="Online", value=online, inline=True)
     if online:
-        embed.add_field(name="Online Player", value=online_count, inline=False)
+        embed.add_field(name="Online Player(s)", value=online_count, inline=False)
 
     return embed
 
@@ -37,7 +37,7 @@ class Minecraft(commands.Cog):
 
             data = resp.json()["data"]
             if data != None:
-                await ctx.send("Minecraft server started!")
+                await ctx.send("Minecraft server has been started.")
         except Exception as e:
             print("Error starting minecraft server: ", e)
             await ctx.send("Error starting minecraft server.")
@@ -55,7 +55,7 @@ class Minecraft(commands.Cog):
 
             data = resp.json()["data"]
             if data != None:
-                await ctx.send("Minecraft server stopped!")
+                await ctx.send("Minecraft server has been stopped.")
         except Exception as e:
             print("Error stopping minecraft server: ", e)
             await ctx.send("Error stopping minecraft server.")
@@ -66,6 +66,7 @@ class Minecraft(commands.Cog):
 
         try:
             status = server.status()
+            query = server.query()
             embed = server_status_embed(
                 os.environ["MINECRAFT_SERVER"], True, status.players.online
             )
@@ -78,7 +79,6 @@ class Minecraft(commands.Cog):
 
         if status.players.online > 0:
             player_embed = discord.Embed()
-            query = server.query()
             players = query.players.names
             player_embed.add_field(
                 name="Online Player(s)", value="\n".join(players), inline=False
