@@ -3,7 +3,7 @@ version: "3.0"
 services:
   vesta:
     container_name: vesta
-    image: apollo:latest
+    image: ghcr.io/veirt/apollo:latest
     environment:
       TOKEN:
       PROXMOX_TOKEN:
