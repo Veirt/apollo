@@ -1,0 +1,12 @@
+version: "3.0"
+
+services:
+  vesta:
+    container_name: vesta
+    image: apollo:latest
+    environment:
+      TOKEN:
+      PROXMOX_TOKEN:
+      PROXMOX_VM:
+      MINECRAFT_SERVER:
+    restart: unless-stopped

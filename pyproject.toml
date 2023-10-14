@@ -12,6 +12,8 @@ python-dotenv = "^1.0.0"
 requests = "^2.31.0"
 mcstatus = "^11.0.1"
 
+[tool.poetry.scripts]
+start = "apollo.bot:main"
 
 [build-system]
 requires = ["poetry-core"]
