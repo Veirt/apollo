@@ -2,15 +2,14 @@ import os
 import requests
 import discord
 from discord.ext import commands
+from mcstatus import JavaServer
 
 
-def server_status_embed(
-    ip: str, port: int, online_count: int | None, cachehit: bool, online: bool
-):
+def server_status_embed(server: str, online: bool, online_count: int | None = 0):
     embed = discord.Embed()
-    embed.add_field(name="Server", value=f"{ip}:{port}", inline=True)
+    embed.add_field(name="Server", value=server, inline=True)
     embed.add_field(name="Online", value=online, inline=True)
-    if online_count != None:
+    if online:
         embed.add_field(name="Online Player", value=online_count, inline=False)
 
     return embed
@@ -63,30 +62,25 @@ class Minecraft(commands.Cog):
 
     @commands.command()
     async def mcstatus(self, ctx):
-        server_status_endpoint = (
-            f"https://api.mcsrvstat.us/3/{os.environ['MINECRAFT_SERVER']}"
-        )
+        server = JavaServer.lookup(os.environ["MINECRAFT_SERVER"])
 
         try:
-            resp = requests.get(server_status_endpoint)
-
-            data = resp.json()
-
-            if data:
-                players = data["players"]["online"] if "players" in data else None
-
-                embed = server_status_embed(
-                    data["ip"],
-                    data["port"],
-                    players,
-                    data["debug"]["cachehit"],
-                    data["online"],
-                )
-
-                await ctx.send(embed=embed)
-            else:
-                raise ValueError("Data is empty.")
-
+            status = server.status()
+            embed = server_status_embed(
+                os.environ["MINECRAFT_SERVER"], True, status.players.online
+            )
+            await ctx.send(embed=embed)
         except Exception as e:
-            print("Error when checking minecraft server status: ", e)
-            await ctx.send("Error when checking minecraft server status.")
+            embed = server_status_embed(os.environ["MINECRAFT_SERVER"], False)
+            print("Error when checking server status:", e)
+            await ctx.send(embed=embed)
+            return
+
+        if status.players.online > 0:
+            player_embed = discord.Embed()
+            query = server.query()
+            players = query.players.names
+            player_embed.add_field(
+                name="Online Player(s)", value="\n".join(players), inline=False
+            )
+            await ctx.send(embed=player_embed)
