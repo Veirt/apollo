@@ -37,7 +37,9 @@ class Minecraft(commands.Cog):
 
             data = resp.json()["data"]
             if data != None:
-                await ctx.send("Minecraft server has been started.")
+                await ctx.send(
+                    "Minecraft server has been started. Please wait 3-5 minutes for the server to start."
+                )
         except Exception as e:
             print("Error starting minecraft server: ", e)
             await ctx.send("Error starting minecraft server.")
