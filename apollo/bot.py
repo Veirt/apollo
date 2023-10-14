@@ -3,8 +3,8 @@ import os
 import discord
 from discord.ext import commands
 
-from cogs.Greeting import Greeting
-from cogs.Minecraft import Minecraft
+from .cogs.Greeting import Greeting
+from .cogs.Minecraft import Minecraft
 
 dotenv.load_dotenv()
 
