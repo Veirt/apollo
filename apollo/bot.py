@@ -5,6 +5,7 @@ from discord.ext import commands
 
 from .cogs.Greeting import Greeting
 from .cogs.Minecraft import Minecraft
+from .cogs.Stardew import Stardew
 
 dotenv.load_dotenv()
 
@@ -25,6 +26,7 @@ async def on_ready():
 
     await bot.add_cog(Greeting(bot))
     await bot.add_cog(Minecraft(bot))
+    await bot.add_cog(Stardew(bot))
 
 
 bot.run(TOKEN)
