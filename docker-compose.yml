@@ -1,12 +1,13 @@
 version: "3.0"
 
 services:
-  vesta:
-    container_name: vesta
+  apollo:
+    container_name: apollo
     image: ghcr.io/veirt/apollo:latest
     environment:
       TOKEN:
       PROXMOX_TOKEN:
       PROXMOX_VM:
+      STARDEW_PROXMOX_VM:
       MINECRAFT_SERVER:
     restart: unless-stopped
